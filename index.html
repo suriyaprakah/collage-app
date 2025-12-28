@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>College Hub - Multiple-in-One College App</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🏫 College Hub</h1>
+            <p>Multiple-in-One College App - Login | Profile | Announcements | Attendance | Materials | Fees | Feedback</p>
+            <nav id="nav">
+                <button onclick="showSection('login')">Login</button>
+                <button onclick="showSection('profile')">Profile</button>
+                <button onclick="showSection('announcements')">Announcements</button>
+                <button onclick="showSection('attendance')">Attendance</button>
+                <button onclick="showSection('materials')">Materials</button>
+                <button onclick="showSection('fees')">Fees</button>
+                <button id="navStudents" onclick="showSection('students')" class="hidden">Students</button>
+                <button onclick="showSection('suggestions')">Suggestions</button>
+            </nav> 
+            <div id="headerActions" class="header-actions">
+                <span id="userBadge" class="user-badge"></span>
+                <button id="logoutBtn" onclick="logout()" class="btn-logout">Logout</button>
+                <button id="deleteAccountBtn" onclick="deleteAccount()" class="btn-logout">Delete Account</button>
+            </div>
+        </header>
+
+        <section id="login" class="section active">
+            <h2 id="loginHeader">🔐 Login</h2>
+            <div class="login-form">
+                <select id="loginRole" class="select-small" onchange="onLoginRoleChange()">
+                    <option value="student" selected>Student</option>
+                    <option value="teacher">Teacher</option>
+                </select>
+                <input type="text" id="regNo" placeholder="Register Number (e.g., CS21B001)" required>
+                <input type="password" id="password" placeholder="Password (e.g., DDMMYYYY)" required>
+                <div class="flex-center">
+                    <button onclick="login()">Login</button>
+                    <button id="showSignupBtn" onclick="toggleSignup(true)" class="btn-gradient">Create account</button>
+                </div>
+                <div id="loginStatus"></div>
+                <div id="loginSem" class="login-sem"></div>
+
+                <div id="signupForm" class="signup-form">
+                    <input type="text" id="signupRegNo" placeholder="Register Number (e.g., CS21B002)">
+                    <input type="text" id="signupName" placeholder="Full Name (optional)">
+                    <select id="signupRole" class="select-small" onchange="onSignupRoleChange()">
+                        <option value="student" selected>Student</option>
+                        <option value="teacher">Teacher</option>
+                    </select>
+                    <input type="text" id="signupCollege" placeholder="College (optional)" class="input-small">
+                    <select id="signupSemester" class="select-small">
+                        <option value="">-- Semester (optional) --</option>
+                        <option>1st Year</option>
+                        <option>2nd Year</option>
+                        <option selected>3rd Year</option>
+                        <option>4th Year</option>
+                    </select>
+                    <div class="center-row">
+                        <select id="signupDeptSelect" class="flex-1 select-small"></select>
+                        <input id="signupDeptNew" placeholder="Add Dept" class="dept-new">
+                        <button onclick="(function(){ const v=document.getElementById('signupDeptNew').value.trim(); if(v){ addDepartment(v); document.getElementById('signupDeptSelect').value=normalizeStr(v); document.getElementById('signupDeptNew').value=''; } })()">Add</button>
+                    </div>
+                    <input type="password" id="signupPassword" placeholder="Password (min 6 chars)">
+                    <input type="password" id="signupPasswordConfirm" placeholder="Confirm Password">
+                    <div class="center-row center-justify">
+                        <button onclick="signup()">Sign Up</button>
+                        <button onclick="toggleSignup(false)" class="btn-cancel">Cancel</button>
+                    </div>
+                    <div id="signupStatus" class="status-note"></div>
+                </div> 
+            </div>
+        </section>
+
+        <section id="profile" class="section">
+            <h2>👤 Student Profile</h2>
+            <div id="profileInfo" class="status error">Please login first.</div>
+        </section>
+
+        <section id="announcements" class="section">
+            <h2>📢 Announcements</h2>
+            <div id="announceControls" class="announce-controls">
+                <textarea id="announceText" placeholder="Write announcement..." rows="3" class="announce-text"></textarea>
+                <div class="center-row">
+                    <input type="text" id="announceCollege" placeholder="Target College (optional)" class="input-small">
+                    <input type="text" id="announceDept" placeholder="Target Department (optional)" class="input-small">
+                    <input type="file" id="announceFile" accept=".pdf,.png,.jpg,.jpeg" class="announce-file">
+                    <div class="flex-1"></div>
+                    <button id="announcePostBtn" onclick="addAnnouncement()">Post Announcement</button>
+                </div>
+                <div id="announceCurrentFile" class="status-note" style="display:none"></div>
+            </div> 
+            <div id="announceList" class="announcements"></div>
+        </section>
+
+        <section id="attendance" class="section">
+            <h2>📊 Attendance</h2>
+            <button onclick="markAttendance()">Mark Attendance (Simulated GPS)</button>
+            <div id="attendanceStatus" class="status"></div>
+            <table id="attendanceTable">
+                <thead><tr><th>Date</th><th>Subject</th><th>Status</th><th>%</th></tr></thead>
+                <tbody>
+                    <tr><td>2025-12-20</td><td>AI</td><td>Present</td><td>95%</td></tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id="materials" class="section">
+            <h2>📚 Study Materials</h2>
+            <div id="materialsControls" class="materials-controls">
+                <input type="file" id="fileUpload" multiple accept=".pdf,.docx,.txt">
+                <input type="text" id="materialCollege" placeholder="Target College (optional)" class="material-college">
+                <div class="material-row">
+                    <select id="materialDeptSelect" class="material-dept-select"></select>
+                    <input id="materialDeptNew" placeholder="Add Dept" class="material-dept-new">
+                    <button onclick="(function(){ const v=document.getElementById('materialDeptNew').value.trim(); if(v){ addDepartment(v); document.getElementById('materialDeptSelect').value=normalizeStr(v); document.getElementById('materialDeptNew').value=''; } })()">Add</button>
+                </div>
+                <button onclick="uploadFile()">Upload Material</button>
+            </div> 
+            <div id="materialsInfo" class="materials-info"></div>
+            <ul class="file-list" id="fileList"></ul>
+        </section>
+
+        <section id="fees" class="section">
+            <h2>💰 Fee Status</h2>
+            <div id="feesControls" class="fees-controls">
+                <input type="text" id="feeRegNo" placeholder="Register No (e.g., CS21B001)" class="fee-input">
+                <input type="text" id="feeType" placeholder="Fee Type (e.g., Tuition)" class="fee-input">
+                <input type="number" id="feeAmount" placeholder="Amount" class="fee-amount fee-input">
+                <select id="feeStatus" class="fee-input">
+                    <option value="Pending">Pending</option>
+                    <option value="Paid">Paid</option>
+                </select>
+                <input type="date" id="feeDueDate" class="fee-due">
+                <button onclick="addFee()">Add Fee</button>
+            </div>
+            <table id="feesTable">
+                <thead><tr><th>Register No</th><th>Fee Type</th><th>Amount</th><th>Status</th><th>Due Date</th></tr></thead>
+                <tbody id="feesBody"></tbody>
+            </table>
+        </section>
+
+        <section id="suggestions" class="section">
+            <h2>💡 Suggestion Box</h2>
+            <textarea id="suggestionText" placeholder="Enter your suggestion anonymously..." rows="5"></textarea>
+            <button onclick="submitSuggestion()">Submit</button>
+            <div id="suggestionStatus"></div>
+        </section>
+
+        <section id="students" class="section">
+            <h2>👥 Students</h2>
+            <div id="studentsList"></div>
+        </section>
+    </div> 
+
+    <script src="app.js"></script>
+
+    <!-- Debug console UI -->        function uploadFile() {
+
+    </script>
+
+    <!-- Debug console UI -->
+    <div id="debugToggle" class="debug-toggle" title="Toggle Debug Console" onclick="toggleDebug()">🐞</div>
+    <div id="debugPanel" class="debug-panel debug-hidden">
+        <div class="debug-header">
+            <div>Debug Console</div>
+            <div class="debug-controls">
+                <button onclick="debugClear()">Clear</button>
+                <button onclick="toggleDebug(false)">Close</button>
+            </div>
+        </div>
+        <div id="debugBody" class="debug-body"></div>
+    </div>
+</body>
+</html>
