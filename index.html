@@ -11,7 +11,7 @@
         <header>
             <div class="header-top">
                 <h1>🏫 College Hub</h1>
-                <button id="mobileMenuBtn" class="mobile-menu-btn">☰</button>
+                <button id="mobileMenuBtn" class="mobile-menu-btn" onclick="toggleMobileMenu()">☰</button>
             </div>
             <p>Multiple-in-One College App - Login | Profile | Announcements | Attendance | Materials | Fees | Feedback</p>
             <nav id="nav">
@@ -181,105 +181,5 @@
         </div>
         <div id="debugBody" class="debug-body"></div>
     </div>
-    <div class="table-responsive"
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>College Hub</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-
-<div class="container">
-  <header>
-    <div class="header-top">
-      <h1>🏫 College Hub</h1>
-      <button class="mobile-menu-btn" onclick="toggleMobileMenu()">☰</button>
-    </div>
-
-    <p class="subtitle">All-in-One College App</p>
-
-    <nav id="nav">
-      <button onclick="showSection('login')">Login</button>
-      <button onclick="showSection('profile')">Profile</button>
-      <button onclick="showSection('announcements')">Announcements</button>
-      <button onclick="showSection('attendance')">Attendance</button>
-      <button onclick="showSection('materials')">Materials</button>
-      <button onclick="showSection('fees')">Fees</button>
-      <button onclick="showSection('suggestions')">Suggestions</button>
-    </nav>
-  </header>
-
-  <!-- LOGIN -->
-  <section id="login" class="section active">
-    <h2>🔐 Login</h2>
-    <input type="text" placeholder="Register No">
-    <input type="password" placeholder="Password">
-    <button class="primary">Login</button>
-  </section>
-
-  <!-- PROFILE -->
-  <section id="profile" class="section">
-    <h2>👤 Profile</h2>
-    <p>Student profile details will appear here.</p>
-  </section>
-
-  <!-- ANNOUNCEMENTS -->
-  <section id="announcements" class="section">
-    <h2>📢 Announcements</h2>
-    <textarea placeholder="Write announcement..."></textarea>
-    <button class="primary">Post</button>
-    <div class="card">No announcements yet</div>
-  </section>
-
-  <!-- ATTENDANCE -->
-  <section id="attendance" class="section">
-    <h2>📊 Attendance</h2>
-    <button class="primary">Mark Attendance</button>
-
-    <div class="table-responsive">
-      <table>
-        <tr>
-          <th>Date</th><th>Subject</th><th>Status</th>
-        </tr>
-        <tr>
-          <td>2025-12-20</td><td>AI</td><td>Present</td>
-        </tr>
-      </table>
-    </div>
-  </section>
-
-  <!-- MATERIALS -->
-  <section id="materials" class="section">
-    <h2>📚 Study Materials</h2>
-    <input type="file">
-    <button class="primary">Upload</button>
-    <ul>
-      <li>AI Notes.pdf</li>
-    </ul>
-  </section>
-
-  <!-- FEES -->
-  <section id="fees" class="section">
-    <h2>💰 Fees</h2>
-    <input type="text" placeholder="Fee Type">
-    <input type="number" placeholder="Amount">
-    <button class="primary">Add Fee</button>
-  </section>
-
-  <!-- SUGGESTIONS -->
-  <section id="suggestions" class="section">
-    <h2>💡 Suggestions</h2>
-    <textarea placeholder="Write suggestion anonymously"></textarea>
-    <button class="primary">Submit</button>
-  </section>
-
-</div>
-
-<script src="app.js"></script>
 </body>
 </html>
